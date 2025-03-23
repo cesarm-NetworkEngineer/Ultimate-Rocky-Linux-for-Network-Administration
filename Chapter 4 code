@@ -1,0 +1,22 @@
+
+AWS CloudFormation Template for EC2 Instance
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Automate package management on an EC2 instance
+Resources:
+  MyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro  # Choose instance type
+      ImageId: ami-0abcd1234efgh5678  # Replace with a valid Amazon Linux 2 AMI ID
+      KeyName: my-key-pair  # Replace with your key pair name
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          # Update all installed packages
+          sudo dnf update -y
+          # Install the Apache HTTP server
+          sudo dnf install -y httpd
+          # Start the HTTP server
+          sudo systemctl start httpd
+          # Enable the HTTP server to start on boot
+          sudo systemctl enable httpd
